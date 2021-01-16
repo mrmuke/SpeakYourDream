@@ -22,8 +22,5 @@ def SpeechToText(url):
     string = ""
 
     for result in response.results:
-        line = result.alternatives[0].transcript
-        if(line[0] == " "):
-            line = line[1:]
-        string += line.capitalize() + ". "
+        string +=  result.alternatives[0].transcript
     return string

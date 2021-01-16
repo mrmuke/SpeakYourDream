@@ -15,9 +15,20 @@ file_name = str(uuid.uuid1())
 Upload_blob(path, file_name)
 
 result = SpeechToText("gs://speakyourdream2086/" + file_name)
-noLikes = len(result.split(' like '))-1
-totalWords = len(result.split(' '))
-print(result)
-print("number of likes:", noLikes)
-print("words per minute", (totalWords/totalTime) * 60)
-print(getResponse(result))
+wordArr = result.lower().split(' ')
+totalWords = len(wordArr)
+wpm = (totalWords/totalTime) * 60
+repeatedWords = {}
+for word in wordArr:
+    newWord = True
+    for rep in repeatedWords:
+        if(word == rep):
+            repeatedWords[rep]+=1
+            newWord = False
+    if(newWord):
+        repeatedWords[word] = 1
+textLevel = getResponse(result)
+
+print("words per minute:", wpm)
+print(repeatedWords)
+print(textLevel)
