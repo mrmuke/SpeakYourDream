@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "gapi-chrome-extension",
+  "private_key_id": "bece3debbebd8e4c50da2b5c5d2fae1b9018d4fd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDZCGRg86UBq86V\nECGZXNAMkYxk4C8qZh7FtgIDfs1Zpa+jPPqLtJMqraPpKZjW/g0XkM7js7nmZPwa\n6a2kV5T2xYjZrjOVhrTi3TW46YuDWpREiM1cQO80malyiVv8EHLo9OAudjvxUmvr\nlEFjDvq1LkyhPe5n/QRfyOIzh+qqsb8IaCILgVox74qKhS8fgcK4CkYX0xDsUcYQ\nF0QtjQbv9AvYJ4IBLPr2GviJUxVSNT3qyN6SZveFOTiSwHdbKlfAip20Ybf+xjUW\nW4MMJE2p0c1l6xaiTvWMsxQX9j9fOZu/xjHnJl6FNeLdl0gWMZyEfwx2ehvPloBj\n88Ew0XNFAgMBAAECggEAFgwJsmWdygUrd64LU7p/cf9pHSg+8lYsYxZBrxw2/Rfd\nNz5vDzkZSBkakQmGOrTVHKM7uRrdVB/HEm7RkmPJQKZBaCePmu1zu6YQGogzAXV2\noV2qSuhXxGaltXppqzn6ilqx2VZucW3Xg7dsSwVPB4+7/hc9/DdSNe7At85jUtKK\nqsfYHwhAAFRCCk3tvz0u0Y9JZ48CAyXvM2shgYZK4ReI/5q10RQQtoSraoP6F054\nZz3jhHyXfjhNDuBZiME31yrTx0Zn5nyJUwohbG4CQG5Si0BGhWnqknF3GphGRM3n\n3jzPHo0Oi2j1uWQvDmUfAc4obGHXSPpX2zhY4+I+UwKBgQD4MxPXVNbL3S67k58e\nUmcfv/DBHgOnrzXiwcvfkRLNnUqhkX33DrGn//6KPr7fcA0+skOshiy7fCpTJ8BS\nA/d8b0dHbve1Z99BUJoxHdlsh1ZROwC9c+wMU7FfUt//NURsJ3W0ZaNSSwZNFAHX\nCF1cZ58gB7yea+TFJ1M48QCM+wKBgQDf2o70mmOb8LouK95kbgNGNiOsIHVtu1A1\nd0+bRBnsIhleARLjL3j3nQUwR2kjoGsvbrpFDFucxVTUzKymHYJ4P33Jll6aIulX\n9WF6SOjHeD+nQFJGqKs9ziAe2+nS1t+lSzC70vyc42XHflXEA1gIPlxeFBi7ZtK/\n4x7Ezb2MvwKBgQCzVmTNwHV71JPB4YalqDDvVgcl4wQNE6LB9/nRzsdhXnfginoU\nG7/ufiBzz6anWBWZ6cDQVhrYVX1XnG9wU4FtnhJI4TuHDkjYrt7bApBpxNhv1UxR\nmANFXOvazs0fYGPSKij4ckAyZBdndj9mGpsq+4yU3kJBzf/9HM8bY7hcJQKBgBL9\nv9MQphK8wY7ZOezbSHvUbAJWXqAInC1tCdvqUyitW+mVvbx4cpLPR3lpFYpoOa+0\nfSkOe1c5hpDnLF6Lcl4xRMKtdyksfQ9xSevN87G4ie3ujwxfkueTbTYxAg1ZHXAw\niNnmdHf68s+R8ETI49cPM1bn7ZE4j/inlByuN76RAoGBAOcxELamJZ7eCdQBKv3u\n7LrANQ1HMXDm/cU47Jl0gZofMDdE2NVUXSZBGVF/hVBIHnGl1L+0W0STl+b1chLU\nUoezMXbQsDWhJS10xTOHscnbFJJeGk7PxUBSBNYqa0dPfNI9EmzOoYiwwpBOut4q\nhf8wwEApqMgpXzvaFe9CQxbz\n-----END PRIVATE KEY-----\n",
+  "client_email": "my-stt-sa@gapi-chrome-extension.iam.gserviceaccount.com",
+  "client_id": "106090453703110623773",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/my-stt-sa%40gapi-chrome-extension.iam.gserviceaccount.com"
+}
