@@ -2,7 +2,7 @@ import os
 # Imports the Google Cloud client library
 from google.cloud import speech
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Workspace/SpeakYourDream/gapi-chrome-extension-bece3debbebd.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gapi-chrome-extension-bece3debbebd.json"
 
 
 # Instantiates a client
