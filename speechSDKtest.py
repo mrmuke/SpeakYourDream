@@ -2,11 +2,13 @@ import azure.cognitiveservices.speech as speechsdk
 import time
 import keys
 
-def recognize_from_file():
-    reference_text = open('Welcome.txt', 'r').read()
+reference_text = open('Welcome.txt', 'r').read()
+input_audio = 'ezzat.wav'
+
+def recognize_from_file(reference_text, input_audio):
 
     speech_config = speechsdk.SpeechConfig(subscription=keys.azure, region="westus")
-    audio_config = speechsdk.audio.AudioConfig(filename='Welcome.wav')
+    audio_config = speechsdk.audio.AudioConfig(filename=input_audio)
     speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
 
     pronunciation_assessment_config = speechsdk.PronunciationAssessmentConfig(
@@ -39,7 +41,7 @@ def recognize_from_file():
             ))
 
     #speech_recognizer.recognizing.connect(lambda evt: print('RECOGNIZING: {}'.format(evt)))
-    #speech_recognizer.recognized.connect(lambda evt: print('RECOGNIZED: {}'.format(evt.result)))
+    speech_recognizer.recognized.connect(lambda evt: print('RECOGNIZED: {}'.format(evt.result)))
     speech_recognizer.recognized.connect(lambda evt: grade(evt.result))
     speech_recognizer.session_started.connect(lambda evt: print('SESSION STARTED: {}'.format(evt)))
     speech_recognizer.session_stopped.connect(lambda evt: print('SESSION STOPPED {}'.format(evt)))
@@ -54,4 +56,4 @@ def recognize_from_file():
         time.sleep(.5)
     speech_recognizer.stop_continuous_recognition_async()
 
-recognize_from_file()
+recognize_from_file(reference_text, input_audio)
