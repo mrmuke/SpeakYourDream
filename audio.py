@@ -1,7 +1,7 @@
 from pydub import AudioSegment
 from pydub.silence import detect_silence, split_on_silence
 
-input_file = 'example.wav'
+input_file = 'welcome.wav'
 
 sound_file = AudioSegment.from_wav(input_file)
 
