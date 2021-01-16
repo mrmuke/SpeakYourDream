@@ -1,26 +1,29 @@
-import os
 # Imports the Google Cloud client library
 from google.cloud import speech
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gapi-chrome-extension-bece3debbebd.json"
+def SpeechToText(url):
+    # Instantiates a client
+    client = speech.SpeechClient()
 
+    # The name of the audio file to transcribe
+    gcs_uri = url
 
-# Instantiates a client
-client = speech.SpeechClient()
+    audio = speech.RecognitionAudio(uri=gcs_uri)
 
-# The name of the audio file to transcribe
-gcs_uri = "gs://speakyourdream2086/Welcome.wav"
+    config = speech.RecognitionConfig(
+        encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+        language_code="en-US",
+        audio_channel_count=2
+    )
 
-audio = speech.RecognitionAudio(uri=gcs_uri)
+    # Detects speech in the audio file
+    operation = client.long_running_recognize(config=config, audio=audio)
+    response = operation.result(timeout=90)
+    string = ""
 
-config = speech.RecognitionConfig(
-    encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-    sample_rate_hertz=16000,
-    language_code="en-US",
-)
-
-# Detects speech in the audio file
-response = client.recognize(config=config, audio=audio)
-
-for result in response.results:
-    print("Transcript: {}".format(result.alternatives[0].transcript))
+    for result in response.results:
+        line = result.alternatives[0].transcript
+        if(line[0] == " "):
+            line = line[1:]
+        string += line.capitalize() + ". "
+    return string
