@@ -3,13 +3,47 @@ import numpy as np
 import librosa
 import glob
 import os
+from sklearn.neural_network import MLPClassifier
+
+from sklearn.metrics import accuracy_score
 import pickle
 from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import accuracy_score
+
+# all emotions on RAVDESS dataset
+int2emotion = {
+    "01": "neutral",
+    "02": "calm",
+    "03": "happy",
+    "04": "sad",
+    "05": "angry",
+    "06": "fearful",
+    "07": "disgust",
+    "08": "surprised"
+}
+int2extremity={
+    "01":"normal",
+    "02":"strong"
+}
+# we allow only these emotions
+AVAILABLE_EMOTIONS = {
+    "angry",
+    "sad",
+    "neutral",
+    "happy"
+}
 
 def extract_feature(file_name, **kwargs):
-
+    """
+    Extract feature from audio file `file_name`
+        Features supported:
+            - MFCC (mfcc)
+            - Chroma (chroma)
+            - MEL Spectrogram Frequency (mel)
+            - Contrast (contrast)
+            - Tonnetz (tonnetz)
+        e.g:
+        `features = extract_feature(path, mel=True, mfcc=True)`
+    """
     mfcc = kwargs.get("mfcc")
     chroma = kwargs.get("chroma")
     mel = kwargs.get("mel")
@@ -38,32 +72,20 @@ def extract_feature(file_name, **kwargs):
             result = np.hstack((result, tonnetz))
     return result
 
-int2emotion = {
-    "01": "neutral",
-    "02": "calm",
-    "03": "happy",
-    "04": "sad",
-    "05": "angry",
-    "06": "fearful",
-    "07": "disgust",
-    "08": "surprised"
-}
 
-# we allow only these emotions ( feel free to tune this on your need )
-AVAILABLE_EMOTIONS = {
-    "angry",
-    "sad",
-    "neutral",
-    "happy"
-}
 
 def load_data(test_size=0.2):
     X, y = [], []
-    for file in glob.glob("archive/Actor_*/*.wav"):
+    for file in glob.glob("data/Actor_*/*.wav"):
+        print(file)
         # get the base name of the audio file
         basename = os.path.basename(file)
         # get the emotion label
-        emotion = int2emotion[basename.split("-")[2]]
+        values = basename.split("-")
+        emotion = int2emotion[values[2]]
+
+        extremity = int2extremity[values[3]]
+
         # we allow only AVAILABLE_EMOTIONS we set
         if emotion not in AVAILABLE_EMOTIONS:
             continue
@@ -71,24 +93,63 @@ def load_data(test_size=0.2):
         features = extract_feature(file, mfcc=True, chroma=True, mel=True)
         # add to data
         X.append(features)
-        y.append(emotion)
+        y.append(extremity+"-"+emotion)
     # split the data to training and testing and return it
     return train_test_split(np.array(X), y, test_size=test_size, random_state=7)
 
-X_train, X_test, y_train, y_test = load_data(test_size=0.25)
-model_params = {
+
+def testModel():
+    with open("result/mlp_classifier.model", 'rb') as file:
+        pickle_model = pickle.load(file)
+    test_data = []
+    features = extract_feature(r"C:\Users\mxing\Coding_Projects\python\result\predict.wav", mfcc=True, chroma=True, mel=True)
+    test_data.append(features)
+    test_data=np.array(test_data)
+    print(pickle_model.predict(test_data))
+
+testModel()
+
+
+def trainModel():
+    model_params = {
     'alpha': 0.01,
     'batch_size': 256,
     'epsilon': 1e-08, 
     'hidden_layer_sizes': (300,), 
     'learning_rate': 'adaptive', 
     'max_iter': 500, 
-}
-model = MLPClassifier(**model_params)
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_true=y_test, y_pred=y_pred)
-if not os.path.isdir("result"):
-    os.mkdir("result")
+    }
+    # initialize Multi Layer Perceptron classifier
+    # with best parameters ( so far )
+    model = MLPClassifier(**model_params)
+    # load RAVDESS dataset
+    X_train, X_test, y_train, y_test = load_data(test_size=0.25)
+    # print some details
+    # number of samples in training data
+    print("[+] Number of training samples:", X_train.shape[0])
+    # number of samples in testing data
+    print("[+] Number of testing samples:", X_test.shape[0])
+    # number of features used
+    # this is a vector of features extracted 
+    # using utils.extract_features() method
+    print("[+] Number of features:", X_train.shape[1])
+    # best model, determined by a grid search
 
-pickle.dump(model, open("result/mlp_classifier.model", "wb"))
+    # train the model
+    print("[*] Training the model...")
+    model.fit(X_train, y_train)
+
+    # predict 25% of data to measure how good we are
+    y_pred = model.predict(X_test)
+
+    # calculate the accuracy
+    accuracy = accuracy_score(y_true=y_test, y_pred=y_pred)
+
+    print("Accuracy: {:.2f}%".format(accuracy*100))
+
+    # now we save the model
+    # make result directory if doesn't exist yet
+    if not os.path.isdir("result"):
+        os.mkdir("result")
+
+    pickle.dump(model, open("result/mlp_classifier.model", "wb"))
