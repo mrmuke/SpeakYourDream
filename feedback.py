@@ -128,7 +128,8 @@ checkpoint = ModelCheckpoint(
     verbose=0,        
     save_best_only=True,        
     mode='min' 
-)     
+)
+
 callbacks_list = [checkpoint]      
 history = model.fit(X_train, y_train, batch_size=128, epochs=250, verbose=1, validation_split=0.2, callbacks=callbacks_list)
 

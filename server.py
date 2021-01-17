@@ -15,11 +15,11 @@ def stats():
 
 @app.route('/save', methods=['POST'])
 def save():
-    f = request.files['file']
+    f = request.files['audio_data']
 
-    with open('audio.wav', 'wb') as audio:
+    with open("audio.wav", 'wb') as audio:
         f.save(audio)
-    return "hi"
+    return "success"
 if __name__ == '__main__':
     app.run(debug=True)
 
