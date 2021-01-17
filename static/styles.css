@@ -1031,5 +1031,13 @@ body {
     text-align: center;
     margin-bottom: 20px;
     font-size: 12px;
-    text-transform: uppercase; }
-  
+    text-transform: uppercase; 
+  }
+
+html,body {
+height: 100%;
+}
+
+#yellow {
+height: 100%;
+background: yellow;

@@ -1,81 +1,124 @@
-
-<link href="{{url_for('static', filename='bootstrap.min.css')}}" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
-<link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet">
-
-<!-- <div style="display: flex;justify-content: center;"><h1 style="font-size:100px">A</h1></div> -->
-<div style="width:1200px;margin: auto;">
-<div style="display: flex;">
-    <div style="flex:1;background: white; margin:10px">
-        <div class="panel panel-teal panel-widget">
-            <div class="row no-padding"><em class="fa fa-xl fa-shopping-cart color-blue"></em>
-                <div class="large">120</div>
-                <div class="text-muted">New Orders</div>
-            </div>
-        </div>
-        <div class="panel panel-blue panel-widget">
-            <div class="row no-padding"><em class="fa fa-xl fa-comments color-orange"></em>
-                <div class="large">52</div>
-                <div class="text-muted">Comments</div>
-            </div>
-        </div>
-        <div class="panel panel-orange panel-widget">
-            <div class="row no-padding"><em class="fa fa-xl fa-users color-teal"></em>
-                <div class="large">24</div>
-                <div class="text-muted">New Users</div>
-            </div>
-        </div>
-        <div class="panel panel-red panel-widget ">
-            <div class="row no-padding"><em class="fa fa-xl fa-search color-red"></em>
-                <div class="large">25.2k</div>
-                <div class="text-muted">Page Views</div>
-            </div>
-        </div>
-    </div>
-    <div style="flex:5;background-color: white;margin:10px">
+<html>
+    <link href="{{url_for('static', filename='bootstrap.min.css')}}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet">
     
-    </div>
-</div>
+    <!-- <div style="display: flex;justify-content: center;"><h1 style="font-size:100px">A</h1></div> -->
+    
+    <body>
+        <div style="width:90%; margin:auto;">
+    
+            <div class="row" style="background:white;margin: 0px;">
+                <div class="col-md-8 col-xs-6">
+                    <h1>SpeakYourDream</h1>
+                </div>
+        
+                <div class="col-md-2 col-xs-3">
+                    <div class="upload-btn-wrapper">
+                        <input type="file" name="transcript_file" />
+                    </div>
+                </div>
+        
+                <div class="col-md-2 col-xs-3">
+                    <div class="upload-btn-wrapper">
+                        <input type="file" name="audio_file" />
+                    </div>
+                </div>
+            </div>
+        
+            <div style="display: flex;">
+                <div style="flex:1;background:white;margin:10px">
+                    <div class="panel panel-teal panel-widget">
+                        <div class="row no-padding"><em class="fa fa-xl fa-shopping-cart color-blue"></em>
+                            <div class="large">120</div>
+                            <div class="text-muted">New Orders</div>
+                        </div>
+                    </div>
+                    <div class="panel panel-blue panel-widget">
+                        <div class="row no-padding"><em class="fa fa-xl fa-comments color-orange"></em>
+                            <div class="large">52</div>
+                            <div class="text-muted">Comments</div>
+                        </div>
+                    </div>
+                    <div class="panel panel-orange panel-widget">
+                        <div class="row no-padding"><em class="fa fa-xl fa-users color-teal"></em>
+                            <div class="large">24</div>
+                            <div class="text-muted">New Users</div>
+                        </div>
+                    </div>
+                    <div class="panel panel-red panel-widget ">
+                        <div class="row no-padding"><em class="fa fa-xl fa-search color-red"></em>
+                            <div class="large">25.2k</div>
+                            <div class="text-muted">Page Views</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:5;background-color:white;margin:10px; height: 75%;">
+                    <div class="container-fluid">
+                
+                        <div class="row" style="background-color: gray;">
+                            Where the text will be Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus eum unde porro quaerat minus amet voluptatem obcaecati dignissimos illo sunt, numquam vero tenetur optio quis facere cupiditate, mollitia iure consequuntur!
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias eaque necessitatibus porro esse amet! At rerum quod officiis non, quibusdam blanditiis quia sequi nulla provident quaerat odio culpa unde in!
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, mollitia, laborum iusto voluptates voluptatem dignissimos earum illum nulla consequuntur, ipsam debitis. Veritatis eius perferendis vero quod doloribus repudiandae dolorum beatae.
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum odio dignissimos at, illum modi quia earum corporis sunt? Magnam minus reprehenderit a aspernatur nesciunt exercitationem quas facilis corporis incidunt velit!
+                        </div>
+                        <div class="row" style="text-align:center; background-color: white;">
+                            <button style="display:inline-block;">10L</button>
+                            <button>Start Audio</button>
+                            <button style="display:inline-block;">Play/Pause</button>
+                            <button style="display:inline-block;">10R</button>
+                        </div>
+                        <div class="row">
+                            <div class="slidecontainer">
+                                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                            </div>
+                        </div>
 
-
-
-<div class="row">
-    <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-body easypiechart-panel">
-                <h4>New Orders</h4>
-                <div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span class="percent">92%</span></div>
+                    </div>
+                </div>
+            </div>
+        
+        
+            <div class="row">
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel">
+                            <h4>New Orders</h4>
+                            <div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span class="percent">92%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel">
+                            <h4>Comments</h4>
+                            <div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span class="percent">65%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel">
+                            <h4>New Users</h4>
+                            <div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span class="percent">56%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel">
+                            <h4>Visitors</h4>
+                            <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-body easypiechart-panel">
-                <h4>Comments</h4>
-                <div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span class="percent">65%</span></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-body easypiechart-panel">
-                <h4>New Users</h4>
-                <div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span class="percent">56%</span></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-body easypiechart-panel">
-                <h4>Visitors</h4>
-                <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span></div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<script src="{{url_for('static', filename='jquery-1.11.1.min.js')}}"></script>
-<script src="{{url_for('static', filename='chart.min.js')}}"></script>
-<script src="{{url_for('static', filename='chart-data.js')}}"></script>
-<script src="{{url_for('static', filename='easypiechart.js')}}"></script>
-<script src="{{url_for('static', filename='easypiechart-data.js')}}"></script>
+        <script src="{{url_for('static', filename='jquery-1.11.1.min.js')}}"></script>
+        <script src="{{url_for('static', filename='chart.min.js')}}"></script>
+        <script src="{{url_for('static', filename='chart-data.js')}}"></script>
+        <script src="{{url_for('static', filename='easypiechart.js')}}"></script>
+        <script src="{{url_for('static', filename='easypiechart-data.js')}}"></script>
+        
+    </body>
+</html>

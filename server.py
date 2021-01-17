@@ -13,5 +13,9 @@ def home():
 def stats():
    return render_template('stats.html')
 
+@app.route('/ezzat')
+def ezzat():
+    return render_template('ezzat.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
