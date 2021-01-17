@@ -122,7 +122,7 @@ dense_layer_1 = Dense(14, activation='sigmoid')(LSTM_Layer_1)
 model = Model(inputs=deep_inputs, outputs=dense_layer_1)
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.load_weights('weights-improvement-200-0.2206-ted.hdf5')
+model.load_weights('all_ratings_200.hdf5')
 """ filepath = "weights-improvement-{epoch:02d}-{loss:.4f}-ted.hdf5"    
 checkpoint = ModelCheckpoint(
     filepath, monitor='loss', 
@@ -139,8 +139,7 @@ print("Test Score:", score[0])
 print("Test Accuracy:", score[1])
  """
 arr=model.predict(X_test)
-i =np.argmax(arr, axis=0)
-print(i)
-for name, index in key.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
-    if index == i:
-        print(name)
+print(arr)
+#for name, index in key.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
+    #if index == i:
+        #print(name)
