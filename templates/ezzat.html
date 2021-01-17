@@ -58,18 +58,17 @@
             </div>
         </div>
         <div class="col-md-9 col-xs-12 speech-data-columns" style="margin: 1%;">
-            <div class="row" id="main_text" style="height:90%; background:lightgray;">
+            <div class="row" id="main_text" style="height:87.5%; background:lightgray;">
                 This is where users will write
             </div>
-            <div class="row">
+            <div class="row" style="text-align:center;">
                 <div class="slidecontainer">
                     <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
                 </div>
                 <div>
-                    <button>
-                        <i class="fa fa-pause" aria-hidden="true"></i>
-                        <i class="fa fa-play" aria-hidden="true"></i>
-                        Play/Pause
+                    <button style="width:50px; height:50px; border-radius:50%; background-color:#ffffff; border:none" id="play_pause">
+                        <i class="fa fa-pause" style="font-size:30px; color:black;" aria-hidden="false"></i>
+                        <i class="fa fa-play" style="font-size:30px; color:black; display: none;" aria-hidden="false"></i>
                     </button>
                 </div>
             </div>
@@ -143,6 +142,8 @@
             </div>
         </div>
 </div>
+
+<script src="{{url_for('static', filename='scripts.js')}}"></script>
 
 <script src="{{url_for('static', filename='jquery-1.11.1.min.js')}}"></script>
 <script src="{{url_for('static', filename='chart.min.js')}}"></script>
