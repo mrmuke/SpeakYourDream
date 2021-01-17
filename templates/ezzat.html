@@ -7,45 +7,71 @@
         height: 100%;
         background: white;
     }
+    input[type="file"] {
+        display: none;
+    }
+    .custom-file-upload {
+        background-color: #5fa9e8;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        border-radius: 10px;
+        height: 50%;
+    }
+    .upload-button-text {
+        text-align: center;
+    }
+    .record-button:hover {
+        animation: none;
+    }
+    .record-button{
+        height:90px; 
+        width:90px; 
+        border-radius:50%; 
+        background-color:red;
+        border:0px;
+        box-shadow: 0 0 0 red;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 red;
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+    }
+}
+
+    
 </style>
 
 <div class="container-fluid">
 
-
-    <div class="row essential" style="height:15%; background:white; margin:0.5%; display:flex; align-items: center;">
-        <div class="col-md-6 col-xs-6">
+    <div class="row" style="height:15%; background:white; margin:0.5%; display:flex; align-items: center;">
+        <div class="col-md-8 col-xs-6">
             <h1><b>SpeakYourDreams</b></h1>
         </div>
-        <div class="col-md-2 col-xs-2">
-            <input type="file" name="audio_file" id="audio_file">
+        <div class="col-md-1 col-xs-2">
+            <label for="file-upload" class="custom-file-upload">
+                <h4 class="upload-button-text">Upload Transcript</h4>
+            </label>
+            <input id="file-upload" type="file"/>  
         </div>
-        <div class="col-md-2 col-xs-2">
-            <input type="file" name="transcription_file" id="transcription_file">
+        <div class="col-md-1 col-xs-2">
+            <label for="file-upload" class="custom-file-upload">
+                <h4 class="upload-button-text">Upload Audio</h4>
+            </label>
+            <input id="file-upload" type="file"/>        
         </div>
-        <div class="col-md-2 col-xs-2">
-            <button style="height:70px; width:70px; border-radius:50%; background-color:lightgray;border:0px" id="record_button">
-                <i class="fa fa-microphone" style="font-size:48px; color:red;"></i>
+        <div class="col-md-2 col-xs-2" style="text-align: center;">
+            <button class="record-button" id="record_button">
+                <i class="fa fa-microphone" style="font-size:48px; color:white;"></i>
             </button>
         </div>
     </div>
-    <script>
-        recording = false;
-        record_button = document.getElementById("record_button")
-
-        record_button.addEventListener("click", function(){
-            if(recording){
-                record_button.style.background='lightgray';
-                recording=false
-            }
-            else{
-                record_button.style.background='black'
-                recording=true
-            }
-        })
-
-
-    </script>
-
 
     <div class="row" style="height: 70%;">
         <div class="col-md-2 col-xs-12 speech-data-columns" style="margin:1%; border-radius:25px;">
@@ -91,21 +117,6 @@
             </div>
         </div>
     </div>
-    <script>
-        var play_pause = document.getElementById("play_pause");
-        var play = true;
-        play_pause.addEventListener("click", function(){
-            if(play){
-                play_pause.innerHTML="<i class='fa fa-play' style='font-size:30px; color:black; display: block' aria-hidden='false'></i>"
-                play=false;
-            }
-            else{
-                play_pause.innerHTML="<i class='fa fa-pause' style='font-size:30px; color:black; display: block' aria-hidden='false'></i>"
-                play=true;
-            }
-        })
-    </script>
-
 
     <div class="row" style="margin-top: 1%;">
         <div class="col-xs-6 col-md-3">
@@ -172,9 +183,39 @@
                 </div>
             </div>
         </div>
+    </div>
+
 </div>
 
-<script src="{{url_for('static', filename='scripts.js')}}"></script>
+<script>
+    var recording = false;
+    var record_button = document.getElementById("record_button")
+
+    record_button.addEventListener("click", function(){
+        if(recording){
+            recording=false
+        }
+        else{
+            recording=true
+        }
+    })
+
+    var main_text = document.getElementById("main_text")
+    var play_pause = document.getElementById("play_pause");
+        
+    var play = true;
+    play_pause.addEventListener("click", function(){
+        if(play){
+            play_pause.innerHTML="<i class='fa fa-play' style='font-size:30px; color:black; display: block' aria-hidden='false'></i>"
+            play=false;
+        }
+        else{
+            play_pause.innerHTML="<i class='fa fa-pause' style='font-size:30px; color:black; display: block' aria-hidden='false'></i>"
+            play=true;
+        }
+    })
+
+</script>
 
 <script src="{{url_for('static', filename='jquery-1.11.1.min.js')}}"></script>
 <script src="{{url_for('static', filename='chart.min.js')}}"></script>
