@@ -23,11 +23,28 @@
             <input type="file" name="transcription_file" id="transcription_file">
         </div>
         <div class="col-md-2 col-xs-2">
-            <button style="height:100px; width:100px; border-radius:50%; background-color:lightgray;border:0px">
+            <button style="height:70px; width:70px; border-radius:50%; background-color:lightgray;border:0px" id="record_button">
                 <i class="fa fa-microphone" style="font-size:48px; color:red;"></i>
             </button>
         </div>
     </div>
+    <script>
+        recording = false;
+        record_button = document.getElementById("record_button")
+
+        record_button.addEventListener("click", function(){
+            if(recording){
+                record_button.style.background='lightgray';
+                recording=false
+            }
+            else{
+                record_button.style.background='black'
+                recording=true
+            }
+        })
+
+
+    </script>
 
 
     <div class="row" style="height: 70%;">
@@ -74,6 +91,20 @@
             </div>
         </div>
     </div>
+    <script>
+        var play_pause = document.getElementById("play_pause");
+        var play = true;
+        play_pause.addEventListener("click", function(){
+            if(play){
+                play_pause.innerHTML="<i class='fa fa-play' style='font-size:30px; color:black; display: block' aria-hidden='false'></i>"
+                play=false;
+            }
+            else{
+                play_pause.innerHTML="<i class='fa fa-pause' style='font-size:30px; color:black; display: block' aria-hidden='false'></i>"
+                play=true;
+            }
+        })
+    </script>
 
 
     <div class="row" style="margin-top: 1%;">
