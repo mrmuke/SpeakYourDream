@@ -92,8 +92,7 @@ X_train = tokenizer.texts_to_sequences(X_train)
 X_test = tokenizer.texts_to_sequences(X_test)
 
 vocab_size = len(tokenizer.word_index) + 1
-
-maxlen = 1000
+maxlen=1000
 
 X_train = pad_sequences(X_train, padding='post', maxlen=maxlen)
 X_test = pad_sequences(X_test, padding='post', maxlen=maxlen)
@@ -122,24 +121,34 @@ dense_layer_1 = Dense(14, activation='sigmoid')(LSTM_Layer_1)
 model = Model(inputs=deep_inputs, outputs=dense_layer_1)
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.load_weights('all_ratings_200.hdf5')
-""" filepath = "weights-improvement-{epoch:02d}-{loss:.4f}-ted.hdf5"    
+model.load_weights('all_ratings_1000.hdf5')
+""" filepath = "weights-improvement-{epoch:02d}-{loss:.4f}-tedtalk.hdf5"    
 checkpoint = ModelCheckpoint(
     filepath, monitor='loss', 
     verbose=0,        
     save_best_only=True,        
     mode='min' 
-)     
+)
+
 callbacks_list = [checkpoint]      
-history = model.fit(X_train, y_train, batch_size=128, epochs=200, verbose=1, validation_split=0.2, callbacks=callbacks_list)
+history = model.fit(X_train, y_train, batch_size=128, epochs=250, verbose=1, validation_split=0.2, callbacks=callbacks_list)
 
 score = model.evaluate(X_test, y_test, verbose=1)
 
 print("Test Score:", score[0])
-print("Test Accuracy:", score[1])
- """
+print("Test Accuracy:", score[1]) """
+
+def keyByValue(value):
+    for name, index in key.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
+        if value == index:
+            return name
+
 arr=model.predict(X_test)
 print(arr)
-#for name, index in key.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
-    #if index == i:
-        #print(name)
+dictionary = {}
+for i in range(0,len(arr[0])-1):
+    dictionary[keyByValue(i)]=arr[0][i]
+dictionary=dict(sorted(dictionary.items(), key=lambda item: item[1],reverse=True))
+print(dictionary)
+
+#train with full text>
