@@ -13,7 +13,6 @@ def SpeechToText(url):
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         language_code="en-US",
-        audio_channel_count=2
     )
 
     # Detects speech in the audio file
