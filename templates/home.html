@@ -1,3 +1,4 @@
+
 <div
   style="background-image: url({{ url_for('static', filename='background.jpg') }}); height:100vh; background-size:cover; display:flex;flex-direction:column;align-items:center">
 
@@ -10,7 +11,7 @@
     </div>
     <audio id=recordedAudio></audio>
   </section>
-
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>
     record.onclick = e => {
       record.disabled = true
@@ -25,17 +26,31 @@
     }
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => { handlerFunction(stream) })
     function handlerFunction(stream) {
+      console.log(stream)
       rec = new MediaRecorder(stream)
       rec.ondataavailable = e => {
         audioChunks.push(e.data)
         if (rec.state == 'inactive') {
-          let blob = new Blob(audioChunks, { type: 'audio/mp3' })
+          let blob = new Blob(audioChunks, { type: 'audio/wav' })
           recordedAudio.src = URL.createObjectURL(blob)
           recordedAudio.controls = true
           recordedAudio.autoplay = true
           sendData(blob)
         }
       }
+    }
+    function sendData(blob){
+      var form = new FormData();
+      form.append('file', blob);
+      //Chrome inspector shows that the post data includes a file and a title.                                                                                                                                           
+      $.ajax({
+        type: 'POST',
+        url: '/save',
+        data: form,
+        cache: false,
+        processData: false,
+        contentType: false
+      })
     }
   </script>
 </div>

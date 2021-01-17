@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, redirect, request
-
+import wave
 
 app = Flask(__name__)
 
@@ -13,5 +13,13 @@ def home():
 def stats():
    return render_template('stats.html')
 
+@app.route('/save', methods=['POST'])
+def save():
+    f = request.files['file']
+
+    with open('audio.wav', 'wb') as audio:
+        f.save(audio)
+    return "hi"
 if __name__ == '__main__':
     app.run(debug=True)
+
