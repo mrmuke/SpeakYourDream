@@ -1,0 +1,17 @@
+.toprow{
+    height: 10vh;
+}
+
+.middlerow{
+    height:70vh;
+}
+
+.middlerow div.mycol{
+    background-color: gray;
+    border: red dotted 1px;
+}
+
+.bottomrow{
+    height:20vh;
+    background-color: black;
+}
