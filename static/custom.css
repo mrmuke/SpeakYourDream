@@ -100,3 +100,7 @@ li{
     align-items: center;
     margin:5px;
 }
+
+a:hover{
+    cursor: pointer;
+}

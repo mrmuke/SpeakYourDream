@@ -18,11 +18,13 @@ def syllables_per_word(string):
 
 def words_per_sentence(string):
     sents = re.split(r'[.?!]\s*', string)
-    sents = sents[:len(sents)-1]
-    word_count = 0
-    for i in string:
-        word_count += len(i.split(" "))
-    return float(word_count)/len(sents)
+    sents = list(filter(lambda x : len(x) >0, sents))
+    word_count = len(string.split(" "))
+    
+    if len(sents)>0:
+        return float(word_count)/len(sents)
+    else:
+        return 0
 
 
 def fog(string):
@@ -48,12 +50,8 @@ def fog(string):
 string = open('speech.txt', 'r').read()
 
 
-def fleshers(string):
+def flesch(string):
     B = words_per_sentence(string)*1.015
     A = syllables_per_word(string)*84.6
-    C = B-A
-    return 206.835-C
+    return 206.835-B-A
 
-
-print(fleshers(string))
-print(fog(string))

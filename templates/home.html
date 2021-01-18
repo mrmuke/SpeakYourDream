@@ -1,6 +1,7 @@
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 <link href="{{url_for('static', filename='custom.css')}}" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
+<script src="{{url_for('static', filename='artyom.window.js')}}"></script>
 
 <div
   style="background-image: url({{ url_for('static', filename='background.jpg') }}); height:100vh; background-size:cover; display:flex;flex-direction:column;align-items:center; justify-content:center">
@@ -8,122 +9,199 @@
   <h1>Speak Your Dream</h1>
 
   <div id="controls" style="display: flex;">
-    <button class="play-btn" id="recordButton"><i style="font-size:30px;color:white;" class="fa fa-microphone"></i></button>
-    <button id="pauseButton" class="play-btn" disabled><i style="font-size:30px;color:white;" class="fa fa-pause"></i></button>
-    <button id="stopButton" class="play-btn" disabled><i style="font-size:30px;color:white;" class="fa fa-stop"></i></button>
-    
-   </div>
-   <ol id="recordingsList"></ol>
+    <button class="play-btn" id="recordButton" disabled><i style="font-size:30px;color:white;"
+        class="fa fa-microphone"></i></button>
+    <button id="pauseButton" class="play-btn" disabled><i style="font-size:30px;color:white;"
+        class="fa fa-pause"></i></button>
+    <button id="stopButton" class="play-btn" disabled><i style="font-size:30px;color:white;"
+        class="fa fa-stop"></i></button>
+
+  </div>
+  <div id="transcriptText" style="width:500px;background-color: white;color:black;padding:15px; overflow-wrap: break-word;"><textarea
+      style="width:100%; padding:10px;" id="transcript" rows="10"
+      placeholder="Paste your transcript here..."></textarea></div>
+  <ol id="recordingsList"></ol>
   <script>
-  URL = window.URL || window.webkitURL;
+    var filler = 0
+    var transcript = ""
+    document.getElementById("transcript").addEventListener('change', function (e) {
+      transcript = e.target.value
+      if (transcript.length > 0) {
+        document.getElementById("recordButton").disabled = false
+      }
+      else {
+        document.getElementById("recordButton").disabled = true
+      }
+    })
 
-  var gumStream; 			
-  var rec; 							
-  var input; 					
 
-  var AudioContext = window.AudioContext || window.webkitAudioContext;
-  var audioContext
 
-  var recordButton = document.getElementById("recordButton");
-  var stopButton = document.getElementById("stopButton");
-  var pauseButton = document.getElementById("pauseButton");
+    URL = window.URL || window.webkitURL;
 
-  recordButton.addEventListener("click", startRecording);
-  stopButton.addEventListener("click", stopRecording);
-  pauseButton.addEventListener("click", pauseRecording);
+    var gumStream;
+    var rec;
+    var input;
 
-  function startRecording() {
-    console.log("recordButton clicked");
-      
-      var constraints = { audio: true, video:false }
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    var audioContext
 
-    recordButton.disabled = true;
-    stopButton.disabled = false;
-    pauseButton.disabled = false
+    var recordButton = document.getElementById("recordButton");
+    var stopButton = document.getElementById("stopButton");
+    var pauseButton = document.getElementById("pauseButton");
 
-    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-      console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
+    recordButton.addEventListener("click", startRecording);
+    stopButton.addEventListener("click", stopRecording);
+    pauseButton.addEventListener("click", pauseRecording);
+    
+    var artyom = new Artyom();
+    var currentIndex = 0;
 
-      audioContext = new AudioContext();
-      gumStream = stream;
-      input = audioContext.createMediaStreamSource(stream);
+    artyom.on(["like","basically","I mean","okay", "you know","so","actually","basically","right"]).then(function(){
+        filler++;
+    })
 
-      rec = new Recorder(input,{numChannels:1})
+    function startRecording() {
+      var orginalArr = transcript.split(" ")
+      var transcriptArr = transcript.toLowerCase().split(" ");
 
-      rec.record()
+      artyom.redirectRecognizedTextOutput((recognized, isfinal)=>{
+            var arr = recognized.toLowerCase().split(" ");
+            if(arr[arr.length-1] == transcriptArr[currentIndex]){
+                currentIndex++;
+            } else {
+                for(let i = 1; i < 4; i++){
+                    if(transcriptArr[currentIndex + i] == arr[arr.length-1]){
+                        currentIndex = currentIndex + i + 1;
+                        break;
+                    }
+                }
+            }
+            document.getElementById("transcriptText").innerHTML = "";
+            for(let i = 0; i < transcriptArr.length; i++){
+                if(i == currentIndex && i == transcriptArr.length - 1){
+                  document.getElementById("transcriptText").innerHTML += `<mark>${orginalArr[i]}</mark>&nbsp;`;
+                } else if(i < currentIndex){
+                  document.getElementById("transcriptText").innerHTML += `<mark>${orginalArr[i]}</mark>&nbsp;`;
+                } else {
+                  document.getElementById("transcriptText").innerHTML += orginalArr[i] + "&nbsp;"
+                }
+                
+            }
+            if(currentIndex == transcriptArr.length - 1){
+                artyom.fatality().then(()=>{
+                    stopRecording()
+                })
+            }
+        })
 
-      console.log("Recording started");
+      console.log("recordButton clicked");
+      document.getElementById("transcriptText").innerHTML = transcript
+      var constraints = { audio: true, video: false }
 
-    }).catch(function(err) {
+      recordButton.disabled = true;
+      stopButton.disabled = false;
+      pauseButton.disabled = false
+
+      navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+        console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
+
+        audioContext = new AudioContext();
+        gumStream = stream;
+        input = audioContext.createMediaStreamSource(stream);
+
+        rec = new Recorder(input, { numChannels: 2 })
+
+        record()
+
+        console.log("Recording started");
+
+      }).catch(function (err) {
         recordButton.disabled = false;
         stopButton.disabled = true;
         pauseButton.disabled = true
-    });
-  }
+      });
+    }
 
-  function pauseRecording(){
-    console.log("pauseButton clicked rec.recording=",rec.recording );
-    if (rec.recording){
-      rec.stop();
-      pauseButton.innerHTML='<i style="font-size:30px;color:white;" class="fa fa-play"></i>';
-    }else{
+    function pauseRecording() {
+      console.log("pauseButton clicked rec.recording=", rec.recording);
+      if (rec.recording) {
+        stop();
+        pauseButton.innerHTML = '<i style="font-size:30px;color:white;" class="fa fa-play"></i>';
+      } else {
+        record()
+        pauseButton.innerHTML = '<i style="font-size:30px;color:white;" class="fa fa-pause"></i>';
+
+      }
+    }
+    function record() {
+
+      artyom.initialize({
+          lang:"en-GB",
+          continuous:true,
+          debug:true, // Show what recognizes in the Console
+          listen:true, // Start listening after this
+      })
+
+
+
       rec.record()
-      pauseButton.innerHTML='<i style="font-size:30px;color:white;" class="fa fa-pause"></i>';
 
     }
-  }
+    function stop() {
+      artyom.fatality()
+      rec.stop()
+    }
+    function stopRecording() {
+      console.log("stopButton clicked");
 
-  function stopRecording() {
-    console.log("stopButton clicked");
+      stopButton.disabled = true;
+      recordButton.disabled = true;
+      pauseButton.disabled = true;
 
-    stopButton.disabled = true;
-    recordButton.disabled = false;
-    pauseButton.disabled = true;
+      pauseButton.innerHTML = '<i style="font-size:30px;color:white;" class="fa fa-pause"></i>';
 
-    pauseButton.innerHTML='<i style="font-size:30px;color:white;" class="fa fa-pause"></i>';
-    
-    rec.stop();
+      stop();
 
-    gumStream.getAudioTracks()[0].stop();
+      gumStream.getAudioTracks()[0].stop();
 
-    rec.exportWAV(createDownloadLink);
-  }
+      rec.exportWAV(createDownloadLink);
+    }
 
-  function createDownloadLink(blob) {
-    
-    var url = URL.createObjectURL(blob);
-    var au = document.createElement('audio');
-    var li = document.createElement('li');
-    var link = document.createElement('a');
+    function createDownloadLink(blob) {
 
-    var filename = new Date().toISOString();
+      var url = URL.createObjectURL(blob);
+      var au = document.createElement('audio');
+      var li = document.createElement('li');
+      var link = document.createElement('a');
 
-    au.controls = true;
-    au.src = url;
-    link.href = url;
-    link.download = filename+".wav"; 
-    link.innerHTML = '<a class="cta"><span>Submit</span><span><i class="fa fa-arrow-right"></i></span> </a>';
 
-    
-    
-    au.addEventListener("click", function(event){
-        var xhr=new XMLHttpRequest();
-        xhr.onload=function(e) {
-            if(this.readyState === 4) {
-                console.log("Server returned: ",e.target.responseText);
-            }
+      au.controls = true;
+      au.src = url;
+      link.innerHTML = '<a class="cta"><span>Submit</span><span><i class="fa fa-arrow-right"></i></span> </a>';
+
+
+
+      link.addEventListener("click", function (event) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function (e) {
+          
+              window.location.href = '../stats/'+e.target.responseText
         };
-        var fd=new FormData();
-        fd.append("audio_data",blob, filename);
-        xhr.open("POST","/save",true);
+        var fd = new FormData();
+        fd.append("audio_data", blob);
+        fd.append("transcript",transcript)
+        fd.append("filler",filler)
+        xhr.open("POST", "/save", true);
         xhr.send(fd);
-    })
-    li.appendChild(au);
-    
-    li.appendChild(link);
+      })
+      li.appendChild(au);
 
-    recordingsList.appendChild(li);
-  }
+      li.appendChild(link);
+
+      recordingsList.appendChild(li);
+    }
+
+
   </script>
 </div>
 <style>
@@ -134,6 +212,4 @@
     color: white;
     margin: 0px
   }
-
-
 </style>

@@ -98,16 +98,16 @@ def load_data(test_size=0.2):
     return train_test_split(np.array(X), y, test_size=test_size, random_state=7)
 
 
-def testModel():
+def detectEmotion(folder):
     with open("result/mlp_classifier.model", 'rb') as file:
         pickle_model = pickle.load(file)
     test_data = []
-    features = extract_feature(r"C:\Users\mxing\Coding_Projects\python\result\predict.wav", mfcc=True, chroma=True, mel=True)
-    test_data.append(features)
+    for file in glob.glob(folder+"/section_*.wav"):
+        features = extract_feature(file, mfcc=True, chroma=True, mel=True)
+        test_data.append(features)
     test_data=np.array(test_data)
-    print(pickle_model.predict(test_data))
-
-testModel()
+    emotion=pickle_model.predict(test_data)
+    return emotions
 
 
 def trainModel():
