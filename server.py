@@ -21,16 +21,18 @@ def stats(id):
     text = open(id+'/transcript.txt', 'r').read()
     audio_path = id+"/audio.wav"
     results['category'] = predictText(text)
-    results['readability']=flesch(text)
-    results['wpm'] = getWPM(text,audio_path)
+    print(results["category"])
+    results['readability']=int(flesch(text))
+    results['wpm'] = int(getWPM(text,audio_path))
     results['repetition'] = getRepitition(text)
-    results['pauses']=getPauses(id)
+    results['pauses']=int(getPauses(id))
     results['emotion'] = detectEmotion(id)
     #longer emotion bar for more dtected emotions
-    results['pronounciation']=recognize_from_file(text,audio_path)
+    results['pronounciation']=int(recognize_from_file(text,audio_path))
     results['fillers']=int(open(id+'/filler.txt', 'r').read())
     print(results)
-    results['score']=getFinalScore(results['emotion'],results['pronounciation']/100,results['category'],results['pauses'],results['fillers'],results['wpm'],results['readability']/100)
+    results['score']=int(getFinalScore(results['emotion'],results['pronounciation']/100,results['category'],results['pauses'],results['fillers'],results['wpm'],results['readability']/100)*100)
+    results['transcript']=text
     print(results)
     return render_template('stats.html',results=results)
 

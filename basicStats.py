@@ -26,4 +26,4 @@ def getWPM(text,path):
     wpm = (totalWords/totalTime) * 60
     return wpm
 def take(n, iterable):
-    return list(islice(iterable, n))
+    return dict(islice(iterable, n))
