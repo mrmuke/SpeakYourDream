@@ -107,7 +107,7 @@ def detectEmotion(folder):
         test_data.append(features)
     test_data=np.array(test_data)
     emotion=pickle_model.predict(test_data)
-    return emotions
+    return emotion
 
 
 def trainModel():
