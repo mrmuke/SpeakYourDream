@@ -21,17 +21,15 @@
     .upload-button-text {
         text-align: center;
     }
-    .record-button:hover {
-        animation: none;
-    }
     .record-button{
         height:90px; 
         width:90px; 
         border-radius:50%; 
         background-color:red;
         border:0px;
+        outline: none;
         box-shadow: 0 0 0 red;
-        animation: pulse 2s infinite;
+        animation: none;
     }
     @keyframes pulse {
     0% {
@@ -121,15 +119,15 @@
     <div class="row" style="margin-top: 1%;">
         <div class="col-xs-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>New Orders</h4>
+                <div class="panel-body easypiechart-panel" id=pauses>
+                    <h4>Pauses</h4>
                     <div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span class="percent">92%</span></div>
                 </div>
             </div>
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+                <div class="panel-body easypiechart-panel" id="emotion">
                     <h4>Emotion</h4>
                     <div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span class="percent">65%</span></div>
                 </div>
@@ -137,7 +135,7 @@
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+                <div class="panel-body easypiechart-panel" id="category">
                     <h4>Category</h4>
                     <div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span class="percent">56%</span></div>
                 </div>
@@ -145,7 +143,7 @@
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+                <div class="panel-body easypiechart-panel" id="wpm">
                     <h4>WPM</h4>
                     <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span></div>
                 </div>
@@ -153,33 +151,33 @@
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+                <div class="panel-body easypiechart-panel" id="pronunciation"> 
                     <h4>Pronunciation</h4>
-                    <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span></div>
+                    <div class="easypiechart" id="easypiechart-teal" data-percent="27" ><span class="percent">27%</span></div>
                 </div>
             </div>
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+                <div class="panel-body easypiechart-panel" id="accuracy">
                     <h4>Accuracy</h4>
-                    <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">82%</span></div>
+                    <div class="easypiechart" id="easypiechart-red" data-percent="82" ><span class="percent">82%</span></div>
                 </div>
             </div>
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
+                <div class="panel-body easypiechart-panel" id="fillers">
                     <h4>Fillers</h4>
-                    <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">43%</span></div>
+                    <div class="easypiechart" id="easypiechart-red" data-percent="43" ><span class="percent">43%</span></div>
                 </div>
             </div>
         </div>
         <div class="col-xs-6 col-md-3">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>Pauses</h4>
-                    <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">75%</span></div>
+                <div class="panel-body easypiechart-panel" id="finalGrade">
+                    <h4>Final Grade</h4>
+                    <div class="easypiechart" id="easypiechart-red" data-percent="75" ><span class="percent">75%</span></div>
                 </div>
             </div>
         </div>
@@ -188,21 +186,31 @@
 </div>
 
 <script>
-    var recording = false;
     var record_button = document.getElementById("record_button")
+    var main_text = document.getElementById("main_text") // where the speech will be transcribed
+    var play_pause = document.getElementById("play_pause");
 
+    var pauses = document.getElementById("pauses")
+    var emotion = document.getElementById("emotion")
+    var category = document.getElementById("category")
+    var wpm = document.getElementById("wpm")
+    var pronunciation = document.getElementById("pronunciation")
+    var accuracy = document.getElementById("accuracy")
+    var fillers = document.getElementById("fillers")
+    var finalGrade = document.getElementById("finalGrade")
+
+    var recording = false;
     record_button.addEventListener("click", function(){
         if(recording){
+            record_button.style.animation="none";
             recording=false
         }
         else{
+            record_button.style.animation="pulse 2s infinite"
             recording=true
         }
     })
 
-    var main_text = document.getElementById("main_text")
-    var play_pause = document.getElementById("play_pause");
-        
     var play = true;
     play_pause.addEventListener("click", function(){
         if(play){
@@ -214,6 +222,7 @@
             play=true;
         }
     })
+
 
 </script>
 
