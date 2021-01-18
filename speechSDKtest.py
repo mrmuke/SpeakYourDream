@@ -2,8 +2,8 @@ import azure.cognitiveservices.speech as speechsdk
 import time
 import keys
 
-reference_text = open('Welcome.txt', 'r').read()
-input_audio = 'ezzat.wav'
+reference_text = open('test_audio/Welcome.txt', 'r').read()
+input_audio = 'test_audio/ezzat.wav'
 
 def recognize_from_file(reference_text, input_audio):
 
@@ -40,13 +40,33 @@ def recognize_from_file(reference_text, input_audio):
                 idx + 1, word.word, word.accuracy_score, word.error_type
             ))
 
+    def errorHandling(result):
+        if result.reason == speechsdk.ResultReason.RecognizedSpeech:
+            print("Recognized: {}".format(result.text))
+        elif result.reason == speechsdk.ResultReason.NoMatch:
+            print("No speech could be recognized: {}".format(result.no_match_details))
+        elif result.reason == speechsdk.ResultReason.Canceled:
+            cancellation_details = result.cancellation_details
+            print("Speech Recognition canceled: {}".format(cancellation_details.reason))
+            if cancellation_details.reason == speechsdk.CancellationReason.Error:
+                print("Error details: {}".format(cancellation_details.error_details))
+    
+
     #speech_recognizer.recognizing.connect(lambda evt: print('RECOGNIZING: {}'.format(evt)))
+    
     speech_recognizer.recognized.connect(lambda evt: print('RECOGNIZED: {}'.format(evt.result)))
     speech_recognizer.recognized.connect(lambda evt: grade(evt.result))
     speech_recognizer.session_started.connect(lambda evt: print('SESSION STARTED: {}'.format(evt)))
     speech_recognizer.session_stopped.connect(lambda evt: print('SESSION STOPPED {}'.format(evt)))
     speech_recognizer.canceled.connect(lambda evt: print('CANCELED {}'.format(evt)))
-
+    
+    """
+    speech_recognizer.recognized.connect(lambda evt: errorHandling(evt.result))
+    speech_recognizer.recognized.connect(lambda evt: errorHandling(evt.result))
+    speech_recognizer.session_started.connect(lambda evt: errorHandling(evt.result))
+    speech_recognizer.session_stopped.connect(lambda evt: errorHandling(evt.result))
+    speech_recognizer.canceled.connect(lambda evt: errorHandling(evt.result))
+    """
     speech_recognizer.session_stopped.connect(stop_cb)
     speech_recognizer.canceled.connect(stop_cb)
 
