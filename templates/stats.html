@@ -1,0 +1,123 @@
+<style>
+    div{
+        border-radius: 10px;
+    }
+    .panel{
+        border:10px solid #eee !important;
+        padding:10px
+    }
+</style>
+<html>
+    <link href="{{url_for('static', filename='bootstrap.min.css')}}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet">
+    
+    <!-- <div style="display: flex;justify-content: center;"><h1 style="font-size:100px">A</h1></div> -->
+    
+    <body style="background-image: url({{ url_for('static', filename='background.jpg') }}); height:100vh; background-size:cover;">
+        <div style="width:80%; margin:auto;">
+            <div style="background:white;padding:20px;display: flex; justify-content: center;">
+            <h1 style="font-weight: 700;">SpeakYourDream - Results</h1></div>
+            
+            <div style="display: flex;">
+                <div style="flex:1;background:white;margin:10px">
+                    <div class="panel panel-teal panel-widget">
+                        <div class="row no-padding"><i class="fa fa-xl fa-clock color-teal"></i>
+                            <div class="large" id="wpm">{{results.wpm}}</div>
+
+                            <div class="text-muted">WPM - Best range is 140-160</div>
+                        </div>
+                    </div>
+                    <div class="panel panel-blue panel-widget">
+                        <div class="row no-padding"><i class="fa fa-xl fa-comments color-blue"></i>
+                            <br><b> Most Repeated Words</b>
+                            <br>{% for key, value in results["repetition"].items() %}
+                            {{key}}:{{ value }} <br>
+                        {% endfor %}
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="panel panel-orange panel-widget">
+                        <div class="row no-padding"><i class="fa fa-xl fa-pause color-orange"></i>
+                            <div class="large" id="pauses">{{results.pauses}}</div>
+                    <div class="text-muted">Pauses Per Minute</div>
+                        </div>
+                    </div>
+                    <div class="panel panel-red panel-widget ">
+                        <div class="row no-padding"><i class="fa fa-xl fa fa-ban color-red"></i>
+                            <div class="large">{{results.fillers}}</div>
+                            <div class="text-muted">Fillers Per Minute</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:5;background-color:white;margin:10px; display: flex;flex-direction: column;">
+                    <div class="container-fluid"  style="background-color: #eee;height: 100%;flex:1;padding:40px;width:100%">
+                
+                           {{results.transcript}}
+
+
+                    </div>
+                    <div  class="container-fluid"  style="padding:20px">
+                        <h2>Emotions Expressed</h2>
+                        <div>Use more emotions to get a higher score. Don't stay in one.</div>
+                        {% for emotion in results.emotion %}
+                            <i class="{{'color-red' if 'angry' in emotion }}{{'color-green' if 'happy' in emotion }}{{'color-blue' if 'sad' in emotion }} fa fa-circle"></i>{{emotion}}
+                        {% endfor %}
+                    </div>
+                    
+
+                </div>
+            </div>
+        
+        
+            <div class="row">
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel">
+                            <h3>TED Talk Predicts</h3>
+                            <div>Is this what you're aiming for?</div>
+                            {% for key, value in results["category"].items() %}
+                            <strong>{{key}} </strong>{{ value*100 }}%<br>
+                        {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel" >
+                            <h4>Pronounciation</h4>
+                            <div class="easypiechart" id="easypiechart-orange" data-percent={{results.pronounciation}} ><span class="percent">{{results.pronounciation}}%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel">
+                            <h4>Conciseness</h4>
+                            <div class="easypiechart" id="easypiechart-teal" data-percent={{results.readability}} ><span class="percent">{{results.readability}}%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body easypiechart-panel">
+                            <h4>Overall Score</h4>
+                            <div class="easypiechart" id="easypiechart-red" data-percent={{results.score}} ><span class="percent">{{results.score}}%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{{url_for('static', filename='jquery-1.11.1.min.js')}}"></script>
+        <script src="{{url_for('static', filename='chart.min.js')}}"></script>
+        <script src="{{url_for('static', filename='chart-data.js')}}"></script>
+        <script src="{{url_for('static', filename='easypiechart.js')}}"></script>
+        <script src="{{url_for('static', filename='easypiechart-data.js')}}"></script>
+        
+    </body>
+</html>
+<script text="text/javascript">
+    
+</script>
