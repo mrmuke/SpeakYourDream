@@ -1,3 +1,6 @@
 data/
 glove.6B.100d.txt
 result/
+keys.py
+.vscode
+.__pycache__
