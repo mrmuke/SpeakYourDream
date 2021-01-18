@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./artyom.js/build/artyom.window.js"></script>
+</head>
+<body>
+    <button id="button">START</button>
+    <h1 id="result"></h1>
+    <div class="transcript">But we refuse to believe that the bank of justice is bankrupt. We refuse to believe that there are insufficient funds in the great vaults of opportunity of this nation. And so, we've come to cash this check, a check that will give us upon demand the riches of freedom and the security of justice.</div>
+    <script>
+
+        var transcriptArr = document.getElementsByClassName('transcript')[0].innerText.toLowerCase().split(" ");
+        console.log(transcriptArr.length)
+        var artyom = new Artyom();
+        var currentIndex = 0;
+
+        artyom.on(["something"]).then(function(){
+            console.log("something")
+        })
+
+        artyom.redirectRecognizedTextOutput((recognized, isfinal)=>{
+            var arr = recognized.toLowerCase().split(" ");
+            if(arr[arr.length-1] == transcriptArr[currentIndex]){
+                currentIndex++;
+            } else {
+                console.log(arr[arr.length-1])
+                for(let i = 1; i < 4; i++){
+                    if(transcriptArr[currentIndex + i] == arr[arr.length-1]){
+                        currentIndex = currentIndex + i + 1;
+                        break;
+                    }
+                }
+            }
+            document.getElementsByClassName("transcript")[0].innerHTML = "";
+            for(let i = 0; i < transcriptArr.length; i++){
+                if(i == currentIndex && i == transcriptArr.length - 1){
+                    document.getElementsByClassName("transcript")[0].innerHTML += `<mark>${transcriptArr[i]}</mark>&nbsp;`;
+                } else if(i < currentIndex){
+                    document.getElementsByClassName("transcript")[0].innerHTML += `<mark>${transcriptArr[i]}</mark>&nbsp;`;
+                } else {
+                    document.getElementsByClassName("transcript")[0].innerHTML += transcriptArr[i] + "&nbsp;"
+                }
+                
+            }
+            document.getElementById("result").innerHTML = currentIndex;
+            if(currentIndex == transcriptArr.length - 1){
+                artyom.fatality().then(()=>{
+                    alert('SPEECH ENDED')
+                    document.getElementById("button").innerHTML = "START"
+                })
+            }
+        })
+
+        document.getElementById("button").addEventListener("click", function(){
+            if(document.getElementById("button").innerHTML == "START"){
+                currentIndex = 0;
+                artyom.initialize({
+                    lang:"en-GB",
+                    continuous:true,
+                    debug:true, // Show what recognizes in the Console
+                    listen:true, // Start listening after this
+                }).then(function(){
+                    alert("Artyom has been initialized")
+                    document.getElementById("button").innerHTML = "STOP"
+                }).catch(function(){
+                    alert("There was an error!")
+                });
+            } else {
+                artyom.fatality().then(()=>{
+                    alert('Artyom sucessfully stopped!')
+                    document.getElementById("button").innerHTML = "START"
+                })
+            }
+        })
+    </script>
+</body>
+</html>
